@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>tableView循环利用性能优化 | JuniorXiao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="tableView性能优化 - cell的循环利用方式112345678910111213141516171819202122/** *  什么时候调用：每当有一个cell进入视野范围内就会调用 */- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tableView循环利用性能优化">
+<meta property="og:url" content="http://yoursite.com/2015/08/01/tableView循环利用性能优化/index.html">
+<meta property="og:site_name" content="JuniorXiao">
+<meta property="og:description" content="tableView性能优化 - cell的循环利用方式112345678910111213141516171819202122/** *  什么时候调用：每当有一个cell进入视野范围内就会调用 */- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPa">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383447437699.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383447597100.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383448112645.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383448366970.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383448600318.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383448716391.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383448861020.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383449009333.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383449125564.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383449730957.jpg">
+<meta property="og:image" content="http://yoursite.com/media/14383441581519/14383449364453.jpg">
+<meta property="og:updated_time" content="2015-08-01T15:29:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tableView循环利用性能优化">
+<meta name="twitter:description" content="tableView性能优化 - cell的循环利用方式112345678910111213141516171819202122/** *  什么时候调用：每当有一个cell进入视野范围内就会调用 */- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPa">
+  
+    <link rel="alternative" href="/atom.xml" title="JuniorXiao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/icon.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">xiaojunquan</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知书达礼，和而不同</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/oflyme12" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/i/2496978592" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">xiaojunquan</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/icon.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">xiaojunquan</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知书达礼，和而不同</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/oflyme12" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/i/2496978592" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-tableView循环利用性能优化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/01/tableView循环利用性能优化/" class="article-date">
+  	<time datetime="2015-08-01T15:55:02.000Z" itemprop="datePublished">2015-08-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tableView循环利用性能优化
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="tableView性能优化_-_cell的循环利用方式1">tableView性能优化 - cell的循环利用方式1</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> *  什么时候调用：每当有一个cell进入视野范围内就会调用</span><br><span class="line"> */</span></span><br><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 0.重用标识</span></span><br><span class="line">    <span class="comment">// 被static修饰的局部变量：只会初始化一次，在整个程序运行过程中，只有一份内存</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *ID = <span class="string">@"cell"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.先根据cell的标识去缓存池中查找可循环利用的cell</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell = [tableView dequeueReusableCellWithIdentifier:ID];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.如果cell为nil（缓存池找不到对应的cell）</span></span><br><span class="line">    <span class="keyword">if</span> (cell == <span class="literal">nil</span>) &#123;</span><br><span class="line">        cell = [[<span class="built_in">UITableViewCell</span> alloc] initWithStyle:<span class="built_in">UITableViewCellStyleDefault</span> reuseIdentifier:ID];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.覆盖数据</span></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span> = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"testdata - %zd"</span>, indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="tableView性能优化_-_cell的循环利用方式2">tableView性能优化 - cell的循环利用方式2</h2><a id="more"></a>
+<ul>
+<li>定义一个全局变量</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义重用标识</span></span><br><span class="line"><span class="built_in">NSString</span> *ID = <span class="string">@"cell"</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注册某个标识对应的cell类型</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在这个方法中注册cell</span></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注册某个标识对应的cell类型</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.tableView</span> registerClass:[<span class="built_in">UITableViewCell</span> class] forCellReuseIdentifier:ID];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在数据源方法中返回cell</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 1.去缓存池中查找cell</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell = [tableView dequeueReusableCellWithIdentifier:ID];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.覆盖数据</span></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span> = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"testdata - %zd"</span>, indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="tableView性能优化_-_cell的循环利用方式3">tableView性能优化 - cell的循环利用方式3</h2><ul>
+<li>在storyboard中设置UITableView的Dynamic Prototypes Cell<br><img src="media/14383441581519/14383447437699.jpg" alt=""></li>
+</ul>
+<ul>
+<li>设置cell的重用标识<br><img src="/media/14383441581519/14383447597100.jpg" alt=""></li>
+</ul>
+<ul>
+<li>在代码中利用重用标识获取cell</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0.重用标识</span></span><br><span class="line"><span class="comment">// 被static修饰的局部变量：只会初始化一次，在整个程序运行过程中，只有一份内存</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSString</span> *ID = <span class="string">@"cell"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.先根据cell的标识去缓存池中查找可循环利用的cell</span></span><br><span class="line"><span class="built_in">UITableViewCell</span> *cell = [tableView dequeueReusableCellWithIdentifier:ID];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.覆盖数据</span></span><br><span class="line">cell<span class="variable">.textLabel</span><span class="variable">.text</span> = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"cell - %zd"</span>, indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> cell;</span><br></pre></td></tr></table></figure>
+<h2 id="错误将UIViewController当做UITableViewController来用">错误将UIViewController当做UITableViewController来用</h2><p><img src="/media/14383441581519/14383448112645.jpg" alt=""></p>
+<h2 id="UITableView的常见设置">UITableView的常见设置</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分割线颜色</span></span><br><span class="line"><span class="keyword">self</span><span class="variable">.tableView</span><span class="variable">.separatorColor</span> = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 隐藏分割线</span></span><br><span class="line"><span class="keyword">self</span><span class="variable">.tableView</span><span class="variable">.separatorStyle</span> = <span class="built_in">UITableViewCellSeparatorStyleNone</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tableView有数据的时候才需要分割线</span></span><br><span class="line"><span class="comment">// 开发小技巧:快速取消分割线</span></span><br><span class="line"> <span class="keyword">self</span><span class="variable">.tableView</span><span class="variable">.tableFooterView</span> = [[<span class="built_in">UIView</span> alloc] init];</span><br></pre></td></tr></table></figure>
+<h2 id="UITableViewCell的常见设置">UITableViewCell的常见设置</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 取消选中的样式(常用) 让当前 cell 按下无反应</span></span><br><span class="line">cell<span class="variable">.selectionStyle</span> = <span class="built_in">UITableViewCellSelectionStyleNone</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置选中的背景色</span></span><br><span class="line"><span class="built_in">UIView</span> *selectedBackgroundView = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">selectedBackgroundView<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">cell<span class="variable">.selectedBackgroundView</span> = selectedBackgroundView;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认的背景色</span></span><br><span class="line">cell<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置默认的背景色</span></span><br><span class="line"><span class="built_in">UIView</span> *backgroundView = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">backgroundView<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];</span><br><span class="line">cell<span class="variable">.backgroundView</span> = backgroundView;</span><br><span class="line"></span><br><span class="line"><span class="comment">// backgroundView的优先级 &gt; backgroundColor</span></span><br><span class="line"><span class="comment">// 设置指示器</span></span><br><span class="line"><span class="comment">//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;</span></span><br><span class="line">cell<span class="variable">.accessoryView</span> = [[<span class="built_in">UISwitch</span> alloc] init];</span><br></pre></td></tr></table></figure>
+<h2 id="自定义cell">自定义cell</h2><ul>
+<li><p><code>等高的cell</code></p>
+<ul>
+<li><p><code>storyboard自定义cell</code></p>
+<ul>
+<li>1.创建一个继承自UITableViewCell的子类，比如XMGDealCell<br><br><img src="/media/14383441581519/14383448366970.jpg" alt=""></li>
+<li><p>2.在storyboard中</p>
+<ul>
+<li><p>往cell里面增加需要用到的子控件<br><br><img src="/media/14383441581519/14383448600318.jpg" alt=""></p>
+</li>
+<li><p>设置cell的重用标识<br><br><img src="/media/14383441581519/14383448716391.jpg" alt=""></p>
+</li>
+<li><p>设置cell的class为XMGDealCell<br><br><img src="/media/14383441581519/14383448861020.jpg" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>3.在控制器中</p>
+<ul>
+<li>利用重用标识找到cell</li>
+<li>给cell传递模型数据<br><br><img src="/media/14383441581519/14383449009333.jpg" alt=""></li>
+</ul>
+</li>
+<li><p>4.在XMGDealCell中</p>
+<ul>
+<li><p>将storyboard中的子控件连线到类扩展中<br><br><img src="media/14383441581519/14383449125564.jpg" alt=""></p>
+</li>
+<li><p>需要提供一个模型属性，重写模型的set方法，在这个方法中设置模型数据到子控件上<br><br><img src="/media/14383441581519/14383449730957.jpg" alt=""></p>
+<p><img src="/media/14383441581519/14383449364453.jpg" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>-<span class="ruby"> <span class="string">`xib自定义cell`</span>
+</span>    -<span class="ruby"> <span class="number">1</span>.创建一个继承自<span class="constant">UITableViewCell</span>的子类，比如<span class="constant">XMGDealCell</span>&lt;br&gt;
+</span>    -<span class="ruby"> <span class="number">2</span>.创建一个xib文件（文件名建议跟cell的类名一样），比如<span class="constant">XMGDealCell</span>.xib
+</span>        -<span class="ruby"> 拖拽一个<span class="constant">UITableViewCell</span>出来
+</span>        -<span class="ruby"> 修改cell的<span class="class"><span class="keyword">class</span>为<span class="title">XMGDealCell</span></span>
+</span>        -<span class="ruby"> **设置cell的重用标识**
+</span>        -<span class="ruby"> 往cell中添加需要用到的子控件
+</span>    -<span class="ruby"> <span class="number">3</span>.在控制器中
+</span>        -<span class="ruby"> **利用registerNib...方法注册xib文件**
+</span>        -<span class="ruby"> 利用重用标识找到cell（如果没有注册xib文件，就需要手动去加载xib文件）
+</span>        -<span class="ruby"> 给cell传递模型数据&lt;br&gt;
+</span>    -<span class="ruby"> <span class="number">4</span>.在<span class="constant">XMGDealCell</span>中
+</span>        -<span class="ruby"> 将xib中的子控件连线到类扩展中
+</span>        -<span class="ruby"> 需要提供一个模型属性，重写模型的set方法，在这个方法中设置模型数据到子控件上
+</span>        -<span class="ruby"> 也可以将创建获得cell的代码封装起来（比如<span class="symbol">cellWithTableView:</span>方法）
+</span>
+-<span class="ruby"> <span class="string">`代码自定义cell(使用frame)`</span>
+</span>    -<span class="ruby"> <span class="number">1</span>.创建一个继承自<span class="constant">UITableViewCell</span>的子类，比如<span class="constant">XMGDealCell</span>
+</span>        -<span class="ruby"> 在<span class="symbol">initWithStyle:</span><span class="symbol">reuseIdentifier:</span>方法中
+</span>            -<span class="ruby"> 添加子控件
+</span>            -<span class="ruby"> 设置子控件的初始化属性（比如文字颜色、字体）
+</span>        -<span class="ruby"> 在layoutSubviews方法中设置子控件的frame
+</span>        -<span class="ruby"> 需要提供一个模型属性，重写模型的set方法，在这个方法中设置模型数据到子控件
+</span>    -<span class="ruby"> <span class="number">2</span>.在控制器中
+</span>        -<span class="ruby"> 利用registerClass...方法注册<span class="constant">XMGDealCell</span>类
+</span>        -<span class="ruby"> 利用重用标识找到cell（如果没有注册类，就需要手动创建cell）
+</span>        -<span class="ruby"> 给cell传递模型数据
+</span>        -<span class="ruby"> 也可以将创建获得cell的代码封装起来（比如<span class="symbol">cellWithTableView:</span>方法）
+</span>
+-<span class="ruby"> <span class="string">`代码自定义cell(使用autolayout)`</span>
+</span>    -<span class="ruby"> <span class="number">1</span>.创建一个继承自<span class="constant">UITableViewCell</span>的子类，比如<span class="constant">XMGDealCell</span>
+</span>        -<span class="ruby"> 在<span class="symbol">initWithStyle:</span><span class="symbol">reuseIdentifier:</span>方法中
+</span>            -<span class="ruby"> 添加子控件
+</span>            -<span class="ruby"> 添加子控件的约束（建议使用<span class="string">`Masonry`</span>）
+</span>            -<span class="ruby"> 设置子控件的初始化属性（比如文字颜色、字体）
+</span>        -<span class="ruby"> 需要提供一个模型属性，重写模型的set方法，在这个方法中设置模型数据到子控件
+</span>    -<span class="ruby"> <span class="number">2</span>.在控制器中
+</span>        -<span class="ruby"> 利用registerClass...方法注册<span class="constant">XMGDealCell</span>类
+</span>        -<span class="ruby"> 利用重用标识找到cell（如果没有注册类，就需要手动创建cell）
+</span>        -<span class="ruby"> 给cell传递模型数据
+</span>        -<span class="ruby"> 也可以将创建获得cell的代码封装起来（比如<span class="symbol">cellWithTableView:</span>方法）</span>
+</code></pre><ul>
+<li><p>非等高的cell</p>
+<ul>
+<li><p>xib自定义cell</p>
+</li>
+<li><p>storyboard自定义cell</p>
+</li>
+<li>代码自定义cell（frame）</li>
+<li>代码自定义cell（Autolayout）</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/01/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="tableView循环利用性能优化" data-title="tableView循环利用性能优化" data-url="http://yoursite.com/2015/08/01/tableView循环利用性能优化/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 xiaojunquan
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
