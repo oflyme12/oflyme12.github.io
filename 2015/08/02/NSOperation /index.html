@@ -5,15 +5,55 @@
   
   <title>JuniorXiao</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
+  <meta name="description" content="#NSOperation 
+NSOperation 抽象类
+NSOperation 是一个”抽象类”，不能直接使用
+抽象类的用处是定义子类共有的属性和方法
+在苹果的头文件中，有些抽象类和子类的定义是在同一个头文件中的
+子类：
+NSInvocationOperation (调用)
+NSBlockOperation (块)
+
+
+NSOperationQueue 队列
+
+已经学习过的抽象类
+UIGest">
+<meta property="og:type" content="article">
 <meta property="og:title" content="JuniorXiao">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/08/02/NSOperation /index.html">
 <meta property="og:site_name" content="JuniorXiao">
-<meta property="og:description">
+<meta property="og:description" content="#NSOperation 
+NSOperation 抽象类
+NSOperation 是一个”抽象类”，不能直接使用
+抽象类的用处是定义子类共有的属性和方法
+在苹果的头文件中，有些抽象类和子类的定义是在同一个头文件中的
+子类：
+NSInvocationOperation (调用)
+NSBlockOperation (块)
+
+
+NSOperationQueue 队列
+
+已经学习过的抽象类
+UIGest">
+<meta property="og:updated_time" content="2015-08-01T11:46:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JuniorXiao">
-<meta name="twitter:description">
+<meta name="twitter:description" content="#NSOperation 
+NSOperation 抽象类
+NSOperation 是一个”抽象类”，不能直接使用
+抽象类的用处是定义子类共有的属性和方法
+在苹果的头文件中，有些抽象类和子类的定义是在同一个头文件中的
+子类：
+NSInvocationOperation (调用)
+NSBlockOperation (块)
+
+
+NSOperationQueue 队列
+
+已经学习过的抽象类
+UIGest">
   
     <link rel="alternative" href="/atom.xml" title="JuniorXiao" type="application/atom+xml">
   
@@ -194,9 +234,7 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-NSOperation " class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-NSOperation " class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2015/08/02/NSOperation /" class="article-date">
@@ -274,247 +312,62 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/01/tableView循环利用性能优化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tableView循环利用性能优化</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="NSOperation " data-title="" data-url="http://yoursite.com/2015/08/02/NSOperation /"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
 
-
-  
-    <article id="post-tableView循环利用性能优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/01/tableView循环利用性能优化/" class="article-date">
-  	<time datetime="2015-08-01T15:55:02.000Z" itemprop="datePublished">2015-08-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/01/tableView循环利用性能优化/">tableView循环利用性能优化</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="tableView性能优化_-_cell的循环利用方式1">tableView性能优化 - cell的循环利用方式1</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> *  什么时候调用：每当有一个cell进入视野范围内就会调用</span><br><span class="line"> */</span></span><br><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 0.重用标识</span></span><br><span class="line">    <span class="comment">// 被static修饰的局部变量：只会初始化一次，在整个程序运行过程中，只有一份内存</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *ID = <span class="string">@"cell"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.先根据cell的标识去缓存池中查找可循环利用的cell</span></span><br><span class="line">    <span class="built_in">UITableViewCell</span> *cell = [tableView dequeueReusableCellWithIdentifier:ID];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.如果cell为nil（缓存池找不到对应的cell）</span></span><br><span class="line">    <span class="keyword">if</span> (cell == <span class="literal">nil</span>) &#123;</span><br><span class="line">        cell = [[<span class="built_in">UITableViewCell</span> alloc] initWithStyle:<span class="built_in">UITableViewCellStyleDefault</span> reuseIdentifier:ID];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.覆盖数据</span></span><br><span class="line">    cell<span class="variable">.textLabel</span><span class="variable">.text</span> = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"testdata - %zd"</span>, indexPath<span class="variable">.row</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="tableView性能优化_-_cell的循环利用方式2">tableView性能优化 - cell的循环利用方式2</h2>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/01/tableView循环利用性能优化/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/01/hello-world/" class="article-date">
-  	<time datetime="2015-08-01T15:55:02.000Z" itemprop="datePublished">2015-08-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/01/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Launchpad图标出错，恢复Launchpad" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/01/Launchpad图标出错，恢复Launchpad/" class="article-date">
-  	<time datetime="2015-08-01T15:55:02.000Z" itemprop="datePublished">2015-08-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Launchpad图标出错，恢复Launchpad">Launchpad图标出错，恢复Launchpad</h1><h2 id="Launchpad图标出错，恢复Launchpad-1">Launchpad图标出错，恢复Launchpad</h2><ul>
-<li>想要恢复Launchpad，你需要开启终端应用（位于应用程序/终端），然后输入如下命令：<br><strong><code>defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock</code></strong></li>
-</ul>
-<ul>
-<li>输入完成并点击回车之后，你就会发现Launchpad已经恢复到了原始状态：苹果官方应用在首个页面，第三方应用在第二页面，而你之前所建立的文件夹会全部消失。<br>值得注意的是，该命令并不会将你的应用从Launchpad中移除，它的作用只是恢复初始的文件夹结构，并移除自定义的文件夹和应用排序。</li>
-</ul>
-<h2 id="修改系统是否显示隐藏文件">修改系统是否显示隐藏文件</h2><ul>
-<li><code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><!-- end -->
-</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-About" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/01/About/" class="article-date">
-  	<time datetime="2015-08-01T06:24:12.000Z" itemprop="datePublished">2015-08-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/01/About/">Aoubt</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="welcome_to_1coder-club">welcome to 1coder.club</h1><hr>
-<ul>
-<li><p>this is JuniorXiao`s blog</p>
-</li>
-<li><p>微博:<a href="http://weibo.com/i/2496978592" target="_blank" rel="external">@Junior_Xiao</a></p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -538,8 +391,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
