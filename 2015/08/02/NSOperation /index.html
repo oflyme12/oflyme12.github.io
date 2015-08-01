@@ -37,7 +37,7 @@ NSOperationQueue 队列
 
 已经学习过的抽象类
 UIGest">
-<meta property="og:updated_time" content="2015-08-01T11:46:39.000Z">
+<meta property="og:updated_time" content="2015-08-01T16:06:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JuniorXiao">
 <meta name="twitter:description" content="#NSOperation 
@@ -238,7 +238,7 @@ UIGest">
   
     <div class="article-meta">
       <a href="/2015/08/02/NSOperation /" class="article-date">
-  	<time datetime="2015-08-01T16:04:26.000Z" itemprop="datePublished">2015-08-02</time>
+  	<time datetime="2015-08-01T16:06:37.000Z" itemprop="datePublished">2015-08-02</time>
 </a>
     </div>
   
@@ -283,6 +283,7 @@ UIGest">
 <li>操作 -&gt; 异步执行的任务</li>
 <li>队列 -&gt; 全局队列</li>
 </ul>
+<a id="more"></a>
 <h2 id="NSBlockOperation">NSBlockOperation</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)opDemo4 &#123;</span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *q = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [q addOperation:op];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>使用 block 来定义操作，所有的代码写在一起，更简单，便于维护！</p>
